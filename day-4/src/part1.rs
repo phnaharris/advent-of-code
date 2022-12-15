@@ -1,23 +1,15 @@
 use std::{
+    borrow::Borrow,
     fs::File,
     io::{self, BufReader},
-    str::FromStr,
 };
 
-use crate::Pair;
-
 pub fn part1(reader: BufReader<File>) -> i32 {
-    let mut fully_contain = 0;
+    let mut final_score = 0;
 
-    for line in io::BufRead::lines(reader) {
-        let line = line.unwrap();
+    let reader = io::BufRead::lines(reader);
 
-        let p = Pair::from_str(&line).unwrap();
+    let caller = reader.borrow().next();
 
-        if p.check_if_fully_contain() {
-            fully_contain += 1;
-        }
-    }
-
-    fully_contain
+    final_score
 }
