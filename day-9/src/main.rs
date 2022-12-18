@@ -20,13 +20,6 @@ pub struct Point {
 }
 
 #[derive(Debug)]
-pub struct Rope {
-    pub head: Point,
-    pub tail: Point,
-    pub tail_position_count: HashMap<Point, usize>,
-}
-
-#[derive(Debug)]
 pub struct LongerRope {
     pub nut: Vec<Point>,
     pub tail_position_count: HashMap<Point, usize>,
@@ -61,77 +54,13 @@ impl Point {
     }
 }
 
-impl Rope {
-    pub fn new() -> Self {
-        let mut default_count = HashMap::new();
-        default_count.insert(Point::new(), 1);
-
-        Rope {
-            head: Point::new(),
-            tail: Point::new(),
-            tail_position_count: default_count,
-        }
-    }
-
-    pub fn distance(&self) -> f32 {
-        self.head.distance(&self.tail)
-    }
-
-    pub fn synchronize(&mut self) {
-        if self.distance() == 2.0 {
-            self.tail.x += (self.head.x - self.tail.x) / 2;
-            self.tail.y += (self.head.y - self.tail.y) / 2;
-        } else {
-            self.tail.x += (self.head.x - self.tail.x) / (self.head.x - self.tail.x).abs();
-            self.tail.y += (self.head.y - self.tail.y) / (self.head.y - self.tail.y).abs();
-        }
-        *self.tail_position_count.entry(self.tail).or_insert(0) += 1;
-    }
-
-    pub fn vertical(&mut self, is_up: bool) {
-        if self.distance() >= 2.0 {
-            self.synchronize();
-        }
-
-        if is_up {
-            self.head.y += 1;
-        } else {
-            self.head.y -= 1;
-        }
-    }
-
-    pub fn vertical_with_offset(&mut self, is_up: bool, offset: usize) {
-        for _i in 0..offset {
-            self.vertical(is_up);
-        }
-    }
-
-    pub fn horizontal(&mut self, is_left: bool) {
-        if self.distance() >= 2.0 {
-            self.synchronize();
-        }
-
-        if is_left {
-            self.head.x -= 1;
-        } else {
-            self.head.x += 1;
-        }
-    }
-
-    pub fn horizontal_with_offset(&mut self, is_left: bool, offset: usize) {
-        for _i in 0..offset {
-            self.horizontal(is_left);
-        }
-    }
-}
-
 impl LongerRope {
-    pub fn new() -> Self {
+    pub fn new(length: usize) -> Self {
         let mut default_count = HashMap::new();
         default_count.insert(Point::new(), 1);
 
         LongerRope {
-            nut: vec![Point::new(); 10],
+            nut: vec![Point::new(); length],
             tail_position_count: default_count,
         }
     }

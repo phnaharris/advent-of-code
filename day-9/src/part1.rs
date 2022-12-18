@@ -4,10 +4,10 @@ use std::{
     str::FromStr,
 };
 
-use crate::{Action, Rope};
+use crate::{Action, LongerRope};
 
 pub fn part1(reader: BufReader<File>) -> usize {
-    let mut rope = Rope::new();
+    let mut rope = LongerRope::new(2);
 
     for line in io::BufRead::lines(reader) {
         let line = line.unwrap();
@@ -23,9 +23,7 @@ pub fn part1(reader: BufReader<File>) -> usize {
         }
     }
 
-    if rope.distance() > 1.0 {
-        rope.synchronize();
-    }
+    rope.synchronize();
 
     rope.tail_position_count.len()
 }

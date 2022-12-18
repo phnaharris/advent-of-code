@@ -4,10 +4,10 @@ use std::{
     str::FromStr,
 };
 
-use crate::{Action, LongerRope, Rope};
+use crate::{Action, LongerRope};
 
 pub fn part2(reader: BufReader<File>) -> usize {
-    let mut rope = LongerRope::new();
+    let mut rope = LongerRope::new(10);
 
     for line in io::BufRead::lines(reader) {
         let line = line.unwrap();
